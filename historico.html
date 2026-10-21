@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico de Cálculos — Elevadores i9TMG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script>/* Prefs de acessibilidade aplicadas antes do body */
+  (function(){try{var p=JSON.parse(localStorage.getItem('elev_acess_v1'));if(p&&p.tema==='dark')document.documentElement.classList.add('dark');if(p&&p.contraste)document.documentElement.classList.add('alto-contraste');if(p&&p.fonte==='grande')document.documentElement.classList.add('fonte-lg');if(p&&p.fonte==='pequena')document.documentElement.classList.add('fonte-sm');}catch(e){}})();</script>
+    
+</head>
+<body id="top">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-brand">
+      <div class="icon-elev">
+        <a href="https://i9tmg.com.br/"><img src="imagens/i9_logo.png" alt="Logo"></a>
+      </div>
+      <div>
+        <span>Calculadora de Elevadores</span>
+        <small>ELEVADORES DE CANECAS — CÁLCULO COMPLETO</small>
+      </div>
+    </div>
+    <nav class="menu">
+      <a href="index.html"><i class="fas fa-calculator"></i> Calculadora</a>
+      <a href="instrucoes.html"><i class="fas fa-book-open"></i> Instruções</a>
+      <a href="historico.html" class="active"><i class="fas fa-history"></i> Histórico</a>
+    </nav>
+    <div class="header-tag"><i class="fas fa-industry"></i> &nbsp;Equipamentos Industriais</div>
+    <!-- MENU ACESSIBILIDADE -->
+    <div class="acess-menu" id="acess-menu">
+      <button class="acess-toggle" id="acess-toggle" onclick="acessTogglePanel(event)" aria-haspopup="true" aria-expanded="false" aria-controls="acess-panel" title="Opções de acessibilidade">
+        <i class="fas fa-universal-access" id="acess-icone-tema"></i>
+        <span class="acess-toggle-label">Acessibilidade</span>
+        <span id="acess-indicador" style="display:none;width:7px;height:7px;background:#ff8533;border-radius:50%;margin-left:2px"></span>
+      </button>
+      <div class="acess-panel" id="acess-panel" role="dialog" aria-label="Opções de acessibilidade">
+        <div class="acess-panel-header"><i class="fas fa-universal-access"></i> Acessibilidade</div>
+        <div class="acess-group">
+          <div class="acess-group-label">Tema</div>
+          <div class="acess-btns">
+            <button class="acess-btn active" id="acess-btn-light" onclick="acessSetTema('light')" title="Modo claro">
+              <span class="acess-icon"><i class="fas fa-sun"></i></span>
+              <span class="acess-lbl">Claro</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-dark" onclick="acessSetTema('dark')" title="Modo escuro">
+              <span class="acess-icon"><i class="fas fa-moon"></i></span>
+              <span class="acess-lbl">Escuro</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-contraste" onclick="acessToggleContraste()" title="Alto contraste (requer modo escuro)">
+              <span class="acess-icon"><i class="fas fa-adjust"></i></span>
+              <span class="acess-lbl">Contraste</span>
+            </button>
+          </div>
+        </div>
+        <hr class="acess-sep">
+        <div class="acess-group">
+          <div class="acess-group-label">Tamanho do texto</div>
+          <div class="acess-btns">
+            <button class="acess-btn" id="acess-btn-fonte-pequena" onclick="acessSetFonte('pequena')" title="Texto pequeno">
+              <span class="acess-icon" style="font-size:12px;font-family:var(--font-display);font-weight:800">A</span>
+              <span class="acess-lbl">Pequeno</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-fonte-normal" onclick="acessSetFonte('normal')" title="Texto normal">
+              <span class="acess-icon" style="font-size:16px;font-family:var(--font-display);font-weight:800">A</span>
+              <span class="acess-lbl">Normal</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-fonte-grande" onclick="acessSetFonte('grande')" title="Texto grande">
+              <span class="acess-icon" style="font-size:20px;font-family:var(--font-display);font-weight:800">A</span>
+              <span class="acess-lbl">Grande</span>
+            </button>
+          </div>
+        </div>
+        <button class="acess-btn-reset" onclick="acessReset()" title="Restaurar padrões"><i class="fas fa-undo"></i> Restaurar padrões</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-intro">
+    <h1>Histórico de Cálculos</h1>
+    <p>Todos os cálculos realizados neste navegador ficam salvos aqui automaticamente. Clique em qualquer linha para ver os detalhes, ou em <strong>Usar na calculadora</strong> para carregar os dados e recalcular.</p>
+  </div>
+
+  <!-- Barra de ações -->
+  <div class="acoes-bar">
+    <div class="info-count" id="count-texto">Carregando...</div>
+    <div class="acoes-grupo">
+      <button class="btn-acao export" onclick="exportarCSV()">
+        <i class="fas fa-file-csv"></i> Exportar CSV
+      </button>
+      <button class="btn-acao danger" onclick="limparTudo()">
+        <i class="fas fa-trash-alt"></i> Limpar tudo
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabela de histórico -->
+  <div class="hist-wrap" id="hist-wrap">
+    <!-- preenchido via JS -->
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <p><strong>Calculadora de Elevadores de Canecas</strong></p>
+      <p>Histórico salvo localmente no navegador — não é compartilhado com outros dispositivos.</p>
+    </div>
+    <div class="footer-bottom">
+      <img src="imagens/Muri_logo.png" alt="Logo do grupo">
+      <span>Desenvolvido pelo grupo MuriSystems</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

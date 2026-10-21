@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Elevadores de Canecas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script>/* Prefs de acessibilidade aplicadas antes do body */
+    (function () { try { var p = JSON.parse(localStorage.getItem('elev_acess_v1')); if (p && p.tema === 'dark') document.documentElement.classList.add('dark'); if (p && p.contraste) document.documentElement.classList.add('alto-contraste'); if (p && p.fonte === 'grande') document.documentElement.classList.add('fonte-lg'); if (p && p.fonte === 'pequena') document.documentElement.classList.add('fonte-sm'); } catch (e) { } })();</script>
+</head>
+
+<body id="top">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-brand">
+      <div class="icon-elev">
+        <a href="https://i9tmg.com.br/"><img src="imagens/i9_logo.png" alt="Logo"></a>
+      </div>
+      <div>
+        <span>Calculadora de Elevadores</span>
+        <small>ELEVADORES DE CANECAS — CÁLCULO COMPLETO</small>
+      </div>
+    </div>
+    <nav class="menu">
+      <a href="index.html" class="active"><i class="fas fa-calculator"></i> Calculadora</a>
+      <a href="instrucoes.html"><i class="fas fa-book-open"></i> Instruções</a>
+      <a href="historico.html"><i class="fas fa-history"></i> Histórico</a>
+    </nav>
+    <div class="header-tag"><i class="fas fa-industry"></i> &nbsp;Equipamentos Industriais</div>
+    <!-- MENU ACESSIBILIDADE -->
+    <div class="acess-menu" id="acess-menu">
+      <button class="acess-toggle" id="acess-toggle" onclick="acessTogglePanel(event)" aria-haspopup="true"
+        aria-expanded="false" aria-controls="acess-panel" title="Opções de acessibilidade">
+        <i class="fas fa-universal-access" id="acess-icone-tema"></i>
+        <span class="acess-toggle-label">Acessibilidade</span>
+        <span id="acess-indicador"
+          style="display:none;width:7px;height:7px;background:#ff8533;border-radius:50%;margin-left:2px"></span>
+      </button>
+      <div class="acess-panel" id="acess-panel" role="dialog" aria-label="Opções de acessibilidade">
+        <div class="acess-panel-header"><i class="fas fa-universal-access"></i> Acessibilidade</div>
+        <div class="acess-group">
+          <div class="acess-group-label">Tema</div>
+          <div class="acess-btns">
+            <button class="acess-btn active" id="acess-btn-light" onclick="acessSetTema('light')" title="Modo claro">
+              <span class="acess-icon"><i class="fas fa-sun"></i></span>
+              <span class="acess-lbl">Claro</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-dark" onclick="acessSetTema('dark')" title="Modo escuro">
+              <span class="acess-icon"><i class="fas fa-moon"></i></span>
+              <span class="acess-lbl">Escuro</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-contraste" onclick="acessToggleContraste()"
+              title="Alto contraste (requer modo escuro)">
+              <span class="acess-icon"><i class="fas fa-adjust"></i></span>
+              <span class="acess-lbl">Contraste</span>
+            </button>
+          </div>
+        </div>
+        <hr class="acess-sep">
+        <div class="acess-group">
+          <div class="acess-group-label">Tamanho do texto</div>
+          <div class="acess-btns">
+            <button class="acess-btn" id="acess-btn-fonte-pequena" onclick="acessSetFonte('pequena')"
+              title="Texto pequeno">
+              <span class="acess-icon" style="font-size:12px;font-family:var(--font-display);font-weight:800">A</span>
+              <span class="acess-lbl">Pequeno</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-fonte-normal" onclick="acessSetFonte('normal')"
+              title="Texto normal">
+              <span class="acess-icon" style="font-size:16px;font-family:var(--font-display);font-weight:800">A</span>
+              <span class="acess-lbl">Normal</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-fonte-grande" onclick="acessSetFonte('grande')"
+              title="Texto grande">
+              <span class="acess-icon" style="font-size:20px;font-family:var(--font-display);font-weight:800">A</span>
+              <span class="acess-lbl">Grande</span>
+            </button>
+          </div>
+        </div>
+        <button class="acess-btn-reset" onclick="acessReset()" title="Restaurar padrões"><i class="fas fa-undo"></i>
+          Restaurar padrões</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRÉ-DIMENSIONAMENTO -->
+  <section id="sec-pre" aria-labelledby="titulo-pre">
+    <h1 id="titulo-pre">Pré-Dimensionamento</h1>
+    <p class="descricao">
+      Use o <span>Pré-Dimensionamento</span> para descobrir qual caneca atende sua necessidade,
+      ou vá direto para a <span>Calculadora</span> se já souber os parâmetros do elevador.
+    </p>
+
+    <div class="container">
+      <div class="sec-title"><i class="fas fa-magic"></i> Pré-Dimensionamento — Lógica Inversa</div>
+      <p style="color:var(--texto-sec);font-size:14px;margin-bottom:20px">
+        Informe a capacidade desejada, o material e a altura disponível — o sistema sugere as canecas e velocidades que
+        atendem o requisito.
+      </p>
+
+      <div class="grid-main" style="gap:24px">
+        <div>
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-weight-hanging"></i> Capacidade desejada</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="pre-capacidade" placeholder="Ex: 160">
+                <span class="unit">t/h</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-cubes"></i> Peso Específico (γ)</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="pre-gamma" placeholder="Ex: 1,11">
+                <span class="unit">t/m³</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-arrows-alt-v"></i> Altura disponível (cc)</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="pre-altura" placeholder="Ex: 20,6">
+                <span class="unit">m</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-tachometer-alt"></i> Velocidade de referência</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="pre-velocidade" placeholder="Ex: 1,5">
+                <span class="unit">m/s</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-percentage"></i> CF1</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="pre-cf1" placeholder="0,75">
+                <span class="unit">adm</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-balance-scale"></i> CF2</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="pre-cf2" placeholder="1,0">
+                <span class="unit">adm</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn-calcular" onclick="preDimensionar()">
+            <i class="fas fa-magic"></i> Sugerir Configurações
+          </button>
+        </div>
+
+        <div id="pre-resultado">
+          <div class="placeholder-msg">
+            <i class="fas fa-magic"></i>
+            <p>Informe os requisitos ao lado<br>e clique em <strong>Sugerir Configurações</strong>.<br>
+              As opções compatíveis aparecerão aqui.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br><br>
+
+  <!-- CALCULADORA PRINCIPAL -->
+  <section id="sec-calculadora" aria-labelledby="titulo-calc">
+    <h1 id="titulo-calc">Cálculo de Elevador de Canecas</h1>
+    <p class="descricao">
+      Preencha os dados do elevador e clique em <span>Calcular</span>. O sistema retorna
+      capacidade, seleção da caneca, tensões da correia e potência do motor.
+    </p>
+
+    <div class="container" style="margin-top:0">
+      <div class="grid-main">
+
+        <!-- COLUNA ESQUERDA — ENTRADAS -->
+        <div>
+          <div class="sec-title">
+            <i class="fas fa-sliders-h"></i> Dados de Entrada
+          </div>
+
+          <!-- Identificação -->
+          <div class="form-group">
+            <label><i class="fas fa-tag"></i> Identificação / TAG do Elevador</label>
+            <input type="text" id="tag" placeholder="Ex: EL-01 MISTURA 90">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-weight-hanging"></i> Capacidade de Projeto</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="capacidade" placeholder="Ex: 160">
+                <span class="unit">t/h</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-cubes"></i> Peso Específico (γ)</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="densidade" placeholder="Ex: 1,11">
+                <span class="unit">t/m³</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-arrows-alt-v"></i> Altura do Elevador (cc)</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="altura" placeholder="Ex: 20,6">
+                <span class="unit">m</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-tachometer-alt"></i> Velocidade da Correia</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="velocidade" placeholder="Ex: 1,525">
+                <span class="unit">m/s</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-percentage"></i> Coef. Enchimento (CF1)</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="cf1" placeholder="Ex: 0,75">
+                <span class="unit">adm</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-balance-scale"></i> Coef. Homogeneidade (CF2)</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="cf2" placeholder="Ex: 1,0">
+                <span class="unit">adm</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-grip-lines"></i> Resistência da Correia (Tu)</label>
+            <select id="tu">
+              <option value="">Selecione a classe da correia...</option>
+              <option value="14">14 kgf/cm.lona</option>
+              <option value="22">22 kgf/cm.lona</option>
+              <option value="33" selected>33 kgf/cm.lona</option>
+              <option value="44">44 kgf/cm.lona</option>
+              <option value="50">50 kgf/cm.lona</option>
+              <option value="65">65 kgf/cm.lona</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-chart-line"></i> % Tensão Admissível da Correia (%Tad)</label>
+            <div class="input-wrap">
+              <input type="number" id="ptad" placeholder="50 a 75" min="50" max="75" value="70" step="1">
+              <span class="unit">%</span>
+            </div>
+          </div>
+
+          <!-- Tabela de canecas -->
+          <div class="form-group">
+            <label><i class="fas fa-th-list"></i> Seleção da Caneca (Tabela de Referência)</label>
+            <div class="caneca-table-wrap">
+              <table class="caneca-table" id="tabelaCanecas">
+                <thead>
+                  <tr>
+                    <th>Larg. (mm)</th>
+                    <th>Alt. (mm)</th>
+                    <th>Vol.75% (L)</th>
+                    <th>Vol.100% (L)</th>
+                    <th>Passo (mm)</th>
+                    <th>Correia (pol)</th>
+                    <th>Cap. 1,5m/s (t/h)*</th>
+                  </tr>
+                </thead>
+                <tbody id="corpoCanecas"></tbody>
+              </table>
+            </div>
+            <p class="tabela-nota">* Capacidade estimada a γ=1 t/m³ | Clique na linha para selecionar a caneca desejada
+            </p>
+          </div>
+
+          <button class="btn-calcular" onclick="calcular()">
+            <i class="fas fa-calculator"></i> Calcular Elevador
+          </button>
+        </div>
+
+        <!-- COLUNA DIREITA — RESULTADOS -->
+        <div>
+          <div class="sec-title">
+            <i class="fas fa-chart-bar"></i> Resultados
+          </div>
+          <div id="resultado">
+            <div class="placeholder-msg">
+              <i class="fas fa-arrow-up"></i>
+              <p>Preencha os dados à esquerda,<br>selecione uma caneca na tabela<br>e clique em
+                <strong>Calcular</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ORÇAMENTO -->
+  <section id="sec-orcamento" aria-labelledby="titulo-orc">
+    <h1 id="titulo-orc">Estimativa de Orçamento</h1>
+    <p class="descricao">
+      Após calcular o elevador, clique em <span>Gerar Estimativa</span> para obter uma previsão de custos dos principais
+      componentes. Os valores são referências de mercado — consulte fornecedores para cotação final.
+    </p>
+
+    <div class="container" style="margin-top:0">
+      <div class="grid-main">
+
+        <!-- COLUNA ESQUERDA — PARÂMETROS DE ORÇAMENTO -->
+        <div>
+          <div class="sec-title">
+            <i class="fas fa-sliders-h"></i> Parâmetros de Custo
+          </div>
+
+          <!-- Aviso de dependência do cálculo -->
+          <div class="alerta info orc-aviso-calc" id="orc-aviso-calc" style="margin-bottom:18px">
+            <i class="fas fa-info-circle"></i>
+            <span>Execute o <strong>Cálculo do Elevador</strong> antes de gerar o orçamento. Os parâmetros técnicos são
+              preenchidos automaticamente.</span>
+          </div>
+
+          <!-- Resumo técnico vinculado ao cálculo -->
+          <div class="orc-resumo-tecnico" id="orc-resumo-tecnico" style="display:none">
+            <div class="sec-title" style="font-size:.875rem;margin-bottom:12px">
+              <i class="fas fa-link"></i> Vinculado ao Cálculo
+            </div>
+            <div class="orc-resumo-grid" id="orc-resumo-grid"></div>
+          </div>
+
+          <!-- Região / índice de preço -->
+          <div class="form-group">
+            <label><i class="fas fa-map-marker-alt"></i> Região / Índice de Preço</label>
+            <select id="orc-regiao">
+              <option value="1.00">Sul / Sudeste — referência base</option>
+              <option value="1.08">Centro-Oeste — +8%</option>
+              <option value="1.15">Norte / Nordeste — +15%</option>
+            </select>
+          </div>
+
+          <!-- Taxa de câmbio (componentes importados) -->
+          <div class="form-group">
+            <label><i class="fas fa-dollar-sign"></i> Taxa de Câmbio USD/BRL</label>
+            <div class="input-wrap">
+              <input type="text" inputmode="decimal" id="orc-cambio" placeholder="Ex: 5,70" value="5,70">
+              <span class="unit">R$/US$</span>
+            </div>
+          </div>
+
+          <!-- Margem de contingência -->
+          <div class="form-group">
+            <label><i class="fas fa-shield-alt"></i> Margem de Contingência</label>
+            <select id="orc-contingencia">
+              <option value="0.10">10% — projeto bem definido</option>
+              <option value="0.15" selected>15% — projeto em desenvolvimento</option>
+              <option value="0.20">20% — estimativa preliminar</option>
+              <option value="0.25">25% — conceitual / alta incerteza</option>
+            </select>
+          </div>
+
+          <!-- Incluir montagem -->
+          <div class="form-group">
+            <label><i class="fas fa-hard-hat"></i> Incluir Custo de Montagem</label>
+            <select id="orc-montagem">
+              <option value="0">Não incluir</option>
+              <option value="0.18" selected>Sim — estimativa 18% do equipamento</option>
+              <option value="0.25">Sim — montagem complexa (25%)</option>
+            </select>
+          </div>
+
+          <!-- Incluir frete -->
+          <div class="form-group">
+            <label><i class="fas fa-truck"></i> Incluir Frete / Logística</label>
+            <select id="orc-frete">
+              <option value="0">Não incluir</option>
+              <option value="0.04" selected>Sim — frete padrão (~4%)</option>
+              <option value="0.08">Sim — frete longa distância (~8%)</option>
+            </select>
+          </div>
+
+          <button class="btn-calcular" onclick="gerarOrcamento()" id="orc-btn-gerar">
+            <i class="fas fa-dollar-sign"></i> Gerar Estimativa de Orçamento
+          </button>
+        </div>
+
+        <!-- COLUNA DIREITA — RESULTADO DO ORÇAMENTO -->
+        <div>
+          <div class="sec-title">
+            <i class="fas fa-receipt"></i> Estimativa de Custos
+          </div>
+          <div id="orc-resultado">
+            <div class="placeholder-msg">
+              <i class="fas fa-dollar-sign"></i>
+              <p>Calcule o elevador ao lado,<br>configure os parâmetros<br>e clique em <strong>Gerar
+                  Estimativa</strong>.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <p><strong>Calculadora de Elevadores de Canecas</strong></p>
+      <p>Método de cálculo conforme memória de cálculo técnica — Fórmula: Q = 3600 · V · n · v · CF1 · CF2 · γ / e</p>
+    </div>
+    <p class="footer-formula">Pm = 1000 · n · γ · V / e &nbsp;|&nbsp; Ca = π · D + 2H</p>
+    <div class="footer-bottom">
+      <img src="imagens/Muri_logo.png" alt="Logo do grupo">
+      <span>Desenvolvido pelo grupo MuriSystems</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

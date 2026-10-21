@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instruções — Calculadora de Elevadores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script>/* Prefs de acessibilidade aplicadas antes do body */
+  (function(){try{var p=JSON.parse(localStorage.getItem('elev_acess_v1'));if(p&&p.tema==='dark')document.documentElement.classList.add('dark');if(p&&p.contraste)document.documentElement.classList.add('alto-contraste');if(p&&p.fonte==='grande')document.documentElement.classList.add('fonte-lg');if(p&&p.fonte==='pequena')document.documentElement.classList.add('fonte-sm');}catch(e){}})();</script>
+</head>
+
+<body id="top">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-brand">
+      <div class="icon-elev">
+        <a href="https://i9tmg.com.br/"><img src="imagens/i9_logo.png" alt="Logo"></a>
+      </div>
+      <div>
+        <span>Calculadora de Elevadores</span>
+        <small>ELEVADORES DE CANECAS — CÁLCULO COMPLETO</small>
+      </div>
+    </div>
+    <nav class="menu">
+      <a href="index.html"><i class="fas fa-calculator"></i> Calculadora</a>
+      <a href="instrucoes.html" class="active"><i class="fas fa-book-open"></i> Instruções</a>
+      <a href="historico.html"><i class="fas fa-history"></i> Histórico</a>
+    </nav>
+    <div class="header-tag"><i class="fas fa-industry"></i> &nbsp;Equipamentos Industriais</div>
+    <!-- MENU ACESSIBILIDADE -->
+    <div class="acess-menu" id="acess-menu">
+      <button class="acess-toggle" id="acess-toggle" onclick="acessTogglePanel(event)" aria-haspopup="true" aria-expanded="false" aria-controls="acess-panel" title="Opções de acessibilidade">
+        <i class="fas fa-universal-access" id="acess-icone-tema"></i>
+        <span class="acess-toggle-label">Acessibilidade</span>
+        <span id="acess-indicador" style="display:none;width:7px;height:7px;background:#ff8533;border-radius:50%;margin-left:2px"></span>
+      </button>
+      <div class="acess-panel" id="acess-panel" role="dialog" aria-label="Opções de acessibilidade">
+        <div class="acess-panel-header"><i class="fas fa-universal-access"></i> Acessibilidade</div>
+        <div class="acess-group">
+          <div class="acess-group-label">Tema</div>
+          <div class="acess-btns">
+            <button class="acess-btn active" id="acess-btn-light" onclick="acessSetTema('light')" title="Modo claro">
+              <span class="acess-icon"><i class="fas fa-sun"></i></span>
+              <span class="acess-lbl">Claro</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-dark" onclick="acessSetTema('dark')" title="Modo escuro">
+              <span class="acess-icon"><i class="fas fa-moon"></i></span>
+              <span class="acess-lbl">Escuro</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-contraste" onclick="acessToggleContraste()" title="Alto contraste (requer modo escuro)">
+              <span class="acess-icon"><i class="fas fa-adjust"></i></span>
+              <span class="acess-lbl">Contraste</span>
+            </button>
+          </div>
+        </div>
+        <hr class="acess-sep">
+        <div class="acess-group">
+          <div class="acess-group-label">Tamanho do texto</div>
+          <div class="acess-btns">
+            <button class="acess-btn" id="acess-btn-fonte-pequena" onclick="acessSetFonte('pequena')" title="Texto pequeno">
+              <span class="acess-icon" style="font-size:12px;font-family:var(--font-display);font-weight:800">A</span>
+              <span class="acess-lbl">Pequeno</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-fonte-normal" onclick="acessSetFonte('normal')" title="Texto normal">
+              <span class="acess-icon" style="font-size:16px;font-family:var(--font-display);font-weight:800">A</span>
+              <span class="acess-lbl">Normal</span>
+            </button>
+            <button class="acess-btn" id="acess-btn-fonte-grande" onclick="acessSetFonte('grande')" title="Texto grande">
+              <span class="acess-icon" style="font-size:20px;font-family:var(--font-display);font-weight:800">A</span>
+              <span class="acess-lbl">Grande</span>
+            </button>
+          </div>
+        </div>
+        <button class="acess-btn-reset" onclick="acessReset()" title="Restaurar padrões"><i class="fas fa-undo"></i> Restaurar padrões</button>
+      </div>
+    </div>
+  </div>
+  <div class="page-intro">
+    <h1>Manual de Uso e Fundamentos de Cálculo</h1>
+    <p>Guia completo sobre o funcionamento do elevador de canecas, explicação de cada parâmetro de entrada, fórmulas
+      aplicadas, exemplos numéricos e interpretação dos resultados.</p>
+  </div>
+
+  <!-- ÍNDICE RÁPIDO -->
+  <nav class="indice">
+    <a href="#o-que-e">O que é</a>
+    <a href="#entradas">Dados de Entrada</a>
+    <a href="#canecas">Tabela de Canecas</a>
+    <a href="#capacidade">Cálculo de Capacidade</a>
+    <a href="#tensoes">Tensões da Correia</a>
+    <a href="#potencia">Potência do Motor</a>
+    <a href="#resultados">Interpretando os Resultados</a>
+    <a href="#alertas">Alertas e Limites</a>
+  </nav>
+
+  <!-- ===== 1. O QUE É ===== -->
+  <section class="sec" id="o-que-e">
+    <div class="sec-header">
+      <div class="sec-icon"><i class="fas fa-info-circle"></i></div>
+      <div>
+        <h2>O que é um Elevador de Canecas?</h2>
+        <p>Conceito, componentes e aplicações industriais</p>
+      </div>
+    </div>
+
+    <p>O <strong>elevador de canecas</strong> é um transportador vertical contínuo utilizado para movimentar materiais a
+      granel — como grãos, calcário, cimento, minérios e fertilizantes — de um nível inferior a um nível superior. É
+      composto por uma correia ou corrente sem fim na qual são fixadas as canecas (recipientes metálicos), que coletam o
+      material na parte inferior (pé do elevador) e o descarregam na parte superior (cabeça do elevador).</p>
+
+    <!-- Diagrama SVG do elevador -->
+    <div class="diagrama-wrap">
+      <svg viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg" width="520">
+        <!-- Fundo -->
+        <rect width="520" height="480" fill="#f4f7f9" rx="12" />
+
+        <!-- Título -->
+        <text x="260" y="30" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="16"
+          font-weight="700" fill="#003D58">ESQUEMA DO ELEVADOR DE CANECAS</text>
+
+        <!-- Caixa do elevador (corpo) -->
+        <rect x="200" y="55" width="120" height="360" rx="4" fill="none" stroke="#003D58" stroke-width="2.5"
+          stroke-dasharray="6,3" />
+
+        <!-- Tambor Motriz (topo) -->
+        <ellipse cx="260" cy="80" rx="46" ry="18" fill="#003D58" opacity=".15" stroke="#003D58" stroke-width="2" />
+        <ellipse cx="260" cy="80" rx="46" ry="18" fill="none" stroke="#003D58" stroke-width="2" />
+        <text x="260" y="83" text-anchor="middle" font-family="Barlow, sans-serif" font-size="11" fill="#003D58"
+          font-weight="600">TAMBOR MOTRIZ</text>
+        <!-- Seta rotação -->
+        <path d="M230,68 Q225,55 240,52" fill="none" stroke="#F37021" stroke-width="2" stroke-linecap="round" />
+        <polygon points="238,48 244,54 237,56" fill="#F37021" />
+
+        <!-- Tambor Esticador (base) -->
+        <ellipse cx="260" cy="390" rx="40" ry="15" fill="#5a6d75" opacity=".2" stroke="#5a6d75" stroke-width="2" />
+        <ellipse cx="260" cy="390" rx="40" ry="15" fill="none" stroke="#5a6d75" stroke-width="2" />
+        <text x="260" y="393" text-anchor="middle" font-family="Barlow, sans-serif" font-size="11" fill="#5a6d75"
+          font-weight="600">TAMBOR ESTICADOR</text>
+
+        <!-- Correia subindo (esquerda) -->
+        <line x1="220" y1="80" x2="220" y2="390" stroke="#003D58" stroke-width="3" />
+        <!-- Correia descendo (direita) -->
+        <line x1="300" y1="80" x2="300" y2="390" stroke="#003D58" stroke-width="3" stroke-dasharray="8,4" />
+
+        <!-- Canecas na correia ascendente -->
+        <!-- Caneca 1 -->
+        <rect x="205" y="280" width="28" height="18" rx="3" fill="#F37021" opacity=".9" />
+        <line x1="205" y1="285" x2="200" y2="285" stroke="#003D58" stroke-width="1.5" />
+        <line x1="233" y1="285" x2="238" y2="285" stroke="#003D58" stroke-width="1.5" />
+        <!-- Caneca 2 -->
+        <rect x="205" y="220" width="28" height="18" rx="3" fill="#F37021" opacity=".9" />
+        <!-- Caneca 3 -->
+        <rect x="205" y="160" width="28" height="18" rx="3" fill="#F37021" opacity=".9" />
+        <!-- Caneca 4 (descarregando) -->
+        <rect x="205" y="100" width="28" height="18" rx="3" fill="#F37021" opacity=".7" />
+
+        <!-- Material caindo na descarga -->
+        <path d="M230,100 Q260,88 280,78" fill="none" stroke="#F37021" stroke-width="1.5" stroke-dasharray="4,3" />
+        <circle cx="265" cy="68" r="3" fill="#F37021" opacity=".7" />
+        <circle cx="278" cy="64" r="2" fill="#F37021" opacity=".6" />
+        <circle cx="290" cy="72" r="2.5" fill="#F37021" opacity=".5" />
+
+        <!-- Seta direção subida -->
+        <line x1="217" y1="330" x2="217" y2="295" stroke="#1db87e" stroke-width="2.5" stroke-linecap="round" />
+        <polygon points="213,297 217,288 221,297" fill="#1db87e" />
+        <text x="192" y="312" text-anchor="middle" font-family="Barlow, sans-serif" font-size="10" fill="#1db87e"
+          font-weight="600" transform="rotate(-90,192,312)">SUBIDA</text>
+
+        <!-- Seta direção descida -->
+        <line x1="308" y1="140" x2="308" y2="175" stroke="#5a6d75" stroke-width="2" stroke-dasharray="5,3"
+          stroke-linecap="round" />
+        <polygon points="304,173 308,182 312,173" fill="#5a6d75" />
+
+        <!-- Tremonha de entrada (pé) -->
+        <path d="M200,390 L170,430 L200,430 Z" fill="#dce3e7" stroke="#5a6d75" stroke-width="1.5" />
+        <path d="M300,390 L330,430 L300,430 Z" fill="#dce3e7" stroke="#5a6d75" stroke-width="1.5" />
+        <rect x="170" y="430" width="180" height="24" rx="4" fill="#dce3e7" stroke="#5a6d75" stroke-width="1.5" />
+        <text x="260" y="446" text-anchor="middle" font-family="Barlow, sans-serif" font-size="11" fill="#5a6d75"
+          font-weight="600">PÉ DO ELEVADOR</text>
+
+        <!-- Saída de descarga (cabeça) -->
+        <rect x="300" y="55" width="70" height="44" rx="4" fill="#dce3e7" stroke="#5a6d75" stroke-width="1.5" />
+        <text x="335" y="73" text-anchor="middle" font-family="Barlow, sans-serif" font-size="10" fill="#5a6d75"
+          font-weight="600">SAÍDA /</text>
+        <text x="335" y="86" text-anchor="middle" font-family="Barlow, sans-serif" font-size="10" fill="#5a6d75"
+          font-weight="600">DESCARGA</text>
+        <!-- Seta saída -->
+        <line x1="300" y1="77" x2="320" y2="77" stroke="#F37021" stroke-width="2" />
+        <polygon points="318,73 327,77 318,81" fill="#F37021" />
+
+        <!-- Motor -->
+        <rect x="120" y="62" width="60" height="36" rx="6" fill="#003D58" />
+        <text x="150" y="76" text-anchor="middle" font-family="Barlow, sans-serif" font-size="10" fill="#fff"
+          font-weight="600">MOTOR</text>
+        <text x="150" y="89" text-anchor="middle" font-family="Barlow, sans-serif" font-size="10"
+          fill="#a0d0e8">REDUTOR</text>
+        <line x1="180" y1="80" x2="214" y2="80" stroke="#F37021" stroke-width="2.5" stroke-dasharray="5,3" />
+
+        <!-- Cota de altura H -->
+        <line x1="60" y1="80" x2="60" y2="390" stroke="#003D58" stroke-width="1.5" />
+        <line x1="55" y1="80" x2="65" y2="80" stroke="#003D58" stroke-width="1.5" />
+        <line x1="55" y1="390" x2="65" y2="390" stroke="#003D58" stroke-width="1.5" />
+        <text x="44" y="238" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="14"
+          font-weight="700" fill="#003D58" transform="rotate(-90,44,238)">H = Altura (m)</text>
+
+        <!-- Legenda -->
+        <rect x="340" y="200" width="150" height="120" rx="8" fill="#fff" stroke="#dce3e7" stroke-width="1.5" />
+        <text x="415" y="218" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="13"
+          font-weight="700" fill="#003D58">LEGENDA</text>
+        <rect x="352" y="228" width="14" height="10" rx="2" fill="#F37021" />
+        <text x="372" y="238" font-family="Barlow, sans-serif" font-size="11" fill="#5a6d75">Canecas</text>
+        <line x1="352" y1="254" x2="366" y2="254" stroke="#003D58" stroke-width="2.5" />
+        <text x="372" y="258" font-family="Barlow, sans-serif" font-size="11" fill="#5a6d75">Correia (subida)</text>
+        <line x1="352" y1="272" x2="366" y2="272" stroke="#003D58" stroke-width="2" stroke-dasharray="5,3" />
+        <text x="372" y="276" font-family="Barlow, sans-serif" font-size="11" fill="#5a6d75">Correia (retorno)</text>
+        <line x1="352" y1="290" x2="360" y2="290" stroke="#1db87e" stroke-width="2.5" />
+        <polygon points="358,286 366,290 358,294" fill="#1db87e" />
+        <text x="372" y="294" font-family="Barlow, sans-serif" font-size="11" fill="#5a6d75">Direção</text>
+      </svg>
+    </div>
+
+    <p>O material é coletado no <strong>pé do elevador</strong> por enchimento ou por colher, e é descarregado no topo
+      por força centrífuga (elevadores centrífugos, os mais comuns) ou por gravidade (elevadores de descarga positiva,
+      para materiais frágeis). Esta calculadora trabalha com o <strong>método centrífugo</strong>.</p>
+  <div class="topo-link"><a href="#top"><i class="fas fa-arrow-up"></i> Voltar ao topo</a></div>
+  </section>
+
+  <!-- ===== 2. DADOS DE ENTRADA ===== -->
+  <section class="sec" id="entradas">
+    <div class="sec-header">
+      <div class="sec-icon laranja"><i class="fas fa-sliders-h"></i></div>
+      <div>
+        <h2>Dados de Entrada — o que preencher</h2>
+        <p>Explicação detalhada de cada campo do formulário</p>
+      </div>
+    </div>
+
+    <div class="campos-grid">
+
+      <div class="campo-card">
+        <div class="cc-titulo"><i class="fas fa-tag"></i> TAG / Identificação</div>
+        <p>Nome ou código do equipamento no projeto (ex: <em>EL-01 MISTURA 90</em>). Serve apenas para identificar o
+          resultado impresso — não afeta os cálculos.</p>
+      </div>
+
+      <div class="campo-card">
+        <div class="cc-titulo"><i class="fas fa-weight-hanging"></i> Capacidade de Projeto</div>
+        <div class="cc-simbolo">Q — t/h</div>
+        <p>Quantidade de material a ser transportada por hora, em <strong>toneladas por hora</strong>. É o requisito de
+          processo: o elevador deve ser capaz de superar este valor.</p>
+        <div class="cc-dica"><i class="fas fa-lightbulb"></i> Aplique um fator de serviço de 10–20% acima da capacidade
+          nominal do processo.</div>
+      </div>
+
+      <div class="campo-card">
+        <div class="cc-titulo"><i class="fas fa-cubes"></i> Peso Específico (γ)</div>
+        <div class="cc-simbolo">γ — t/m³</div>
+        <p>Massa aparente do material a granel por unidade de volume. Materiais mais densos reduzem a capacidade
+          volumétrica e aumentam as cargas na correia.</p>
+        <div class="cc-dica"><i class="fas fa-lightbulb"></i> Use a densidade aparente (bulk density), não a densidade
+          real do sólido. Ex: calcário moído ≈ 1,4 t/m³; milho ≈ 0,75 t/m³.</div>
+      </div>
+
+      <div class="campo-card">
+        <div class="cc-titulo"><i class="fas fa-arrows-alt-v"></i> Altura do Elevador (H)</div>
+        <div class="cc-simbolo">H — m (cc)</div>
+        <p>Distância vertical entre o centro do tambor esticador (pé) e o centro do tambor motriz (cabeça), em metros. A
+          sigla <strong>cc</strong> significa "centro a centro".</p>
+        <div class="cc-dica"><i class="fas fa-lightbulb"></i> Não confundir com a altura total da estrutura, que inclui
+          os votos do pé e da cabeça.</div>
+      </div>
+
+      <div class="campo-card">
+        <div class="cc-titulo"><i class="fas fa-tachometer-alt"></i> Velocidade da Correia (v)</div>
+        <div class="cc-simbolo">v — m/s</div>
+        <p>Velocidade periférica da correia. Influencia diretamente na capacidade e no tipo de descarga. Para elevadores
+          centrífugos, a faixa ideal é <strong>1,2 a 2,5 m/s</strong>.</p>
+        <div class="cc-dica"><i class="fas fa-lightbulb"></i> Velocidades muito altas causam descarga prematura (antes
+          do topo) ou desgaste excessivo das canecas.</div>
+      </div>
+
+      <div class="campo-card">
+        <div class="cc-titulo"><i class="fas fa-percentage"></i> Coef. de Enchimento (CF1)</div>
+        <div class="cc-simbolo">CF1 — adimensional</div>
+        <p>Fração do volume da caneca efetivamente preenchida com material. Máximo teórico: <strong>1,0 (100%)</strong>.
+          Na prática, valores entre 0,70 e 0,85 são comuns para enchimento por colher.</p>
+        <div class="cc-dica"><i class="fas fa-lightbulb"></i> Materiais finos e fluidos permitem CF1 mais alto.
+          Materiais grosseiros ou com grumos, mais baixo.</div>
+      </div>
+
+      <div class="campo-card">
+        <div class="cc-titulo"><i class="fas fa-balance-scale"></i> Coef. de Homogeneidade (CF2)</div>
+        <div class="cc-simbolo">CF2 — adimensional</div>
+        <p>Fator que representa a uniformidade da carga ao longo do tempo. Varia de <strong>0,75 a 1,0</strong>. Use 1,0
+          para alimentação contínua e uniforme; 0,75 para alimentação intermitente ou irregular.</p>
+      </div>
+
+      <div class="campo-card">
+        <div class="cc-titulo"><i class="fas fa-grip-lines"></i> Resistência da Correia (Tu)</div>
+        <div class="cc-simbolo">Tu — kgf/cm.lona</div>
+        <p>Resistência admissível de cada lona da correia. Valores tabelados: <strong>14, 22, 33, 44, 50 e 65</strong>
+          kgf/cm.lona. Correias mais resistentes permitem maior tensão com menos lonas.</p>
+        <div class="cc-dica"><i class="fas fa-lightbulb"></i> O valor 33 kgf/cm.lona é o mais comum para elevadores
+          industriais de médio porte.</div>
+      </div>
+
+      <div class="campo-card">
+        <div class="cc-titulo"><i class="fas fa-chart-line"></i> % Tensão Admissível (%Tad)</div>
+        <div class="cc-simbolo">%Tad — %</div>
+        <p>Percentual da tensão admissível da correia que está sendo utilizado. Deve ficar entre <strong>50% e
+            75%</strong>. Abaixo de 50% a correia está superdimensionada; acima de 75%, subdimensionada.</p>
+        <div class="cc-dica"><i class="fas fa-lightbulb"></i> Recomendação típica: projetar para 60–70% do admissível,
+          preservando margem de segurança.</div>
+      </div>
+
+    </div>
+  <div class="topo-link"><a href="#top"><i class="fas fa-arrow-up"></i> Voltar ao topo</a></div>
+  </section>
+
+  <!-- ===== 3. TABELA DE CANECAS ===== -->
+  <section class="sec" id="canecas">
+    <div class="sec-header">
+      <div class="sec-icon"><i class="fas fa-th-list"></i></div>
+      <div>
+        <h2>Tabela de Canecas — como selecionar</h2>
+        <p>Entendendo as dimensões e critérios de escolha</p>
+      </div>
+    </div>
+
+    <p>A caneca é o elemento que efetivamente transporta o material. Sua escolha impacta diretamente na capacidade, nas
+      tensões e no passo (espaçamento entre canecas). A tabela da calculadora contém <strong>21 modelos</strong> com
+      suas dimensões padronizadas.</p>
+
+    <!-- Diagrama caneca -->
+    <div class="diagrama-wrap">
+      <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" width="480">
+        <rect width="480" height="280" fill="#f4f7f9" rx="12" />
+        <text x="240" y="26" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="15"
+          font-weight="700" fill="#003D58">DIMENSÕES DA CANECA</text>
+
+        <!-- Correia vertical -->
+        <rect x="215" y="30" width="10" height="220" rx="2" fill="#003D58" opacity=".3" />
+
+        <!-- Caneca — corpo trapezoidal -->
+        <path d="M225,100 L225,200 L310,200 L295,100 Z" fill="#F37021" opacity=".85" stroke="#d95f1c"
+          stroke-width="2" />
+        <!-- Aba de fixação -->
+        <rect x="210" y="95" width="25" height="14" rx="3" fill="#003D58" opacity=".7" />
+        <rect x="210" y="192" width="25" height="14" rx="3" fill="#003D58" opacity=".7" />
+
+        <!-- Cota Largura -->
+        <line x1="225" y1="220" x2="310" y2="220" stroke="#003D58" stroke-width="1.5" />
+        <line x1="225" y1="215" x2="225" y2="225" stroke="#003D58" stroke-width="1.5" />
+        <line x1="310" y1="215" x2="310" y2="225" stroke="#003D58" stroke-width="1.5" />
+        <text x="267" y="238" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="13"
+          font-weight="700" fill="#003D58">LARGURA (mm)</text>
+
+        <!-- Cota Altura -->
+        <line x1="325" y1="100" x2="325" y2="200" stroke="#003D58" stroke-width="1.5" />
+        <line x1="320" y1="100" x2="330" y2="100" stroke="#003D58" stroke-width="1.5" />
+        <line x1="320" y1="200" x2="330" y2="200" stroke="#003D58" stroke-width="1.5" />
+        <text x="360" y="155" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="13"
+          font-weight="700" fill="#003D58" transform="rotate(90,360,155)">ALTURA (mm)</text>
+
+        <!-- Cota Projeção -->
+        <line x1="225" y1="80" x2="295" y2="80" stroke="#1db87e" stroke-width="1.5" stroke-dasharray="4,2" />
+        <line x1="225" y1="75" x2="225" y2="85" stroke="#1db87e" stroke-width="1.5" />
+        <line x1="295" y1="75" x2="295" y2="85" stroke="#1db87e" stroke-width="1.5" />
+        <text x="260" y="68" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="12"
+          font-weight="700" fill="#1db87e">PROJEÇÃO (mm)</text>
+
+        <!-- Passo -->
+        <line x1="170" y1="100" x2="170" y2="190" stroke="#F37021" stroke-width="1.5" />
+        <line x1="165" y1="100" x2="175" y2="100" stroke="#F37021" stroke-width="1.5" />
+        <line x1="165" y1="190" x2="175" y2="190" stroke="#F37021" stroke-width="1.5" />
+        <text x="140" y="150" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-size="12"
+          font-weight="700" fill="#F37021" transform="rotate(-90,140,150)">PASSO (mm)</text>
+
+        <!-- Legenda materiais -->
+        <rect x="360" y="90" width="100" height="80" rx="8" fill="#fff" stroke="#dce3e7" stroke-width="1.5" />
+        <rect x="370" y="102" width="12" height="10" rx="2" fill="#F37021" opacity=".85" />
+        <text x="388" y="111" font-family="Barlow, sans-serif" font-size="11" fill="#5a6d75">Corpo da caneca</text>
+        <rect x="370" y="120" width="12" height="10" rx="2" fill="#003D58" opacity=".7" />
+        <text x="388" y="129" font-family="Barlow, sans-serif" font-size="11" fill="#5a6d75">Fixação correia</text>
+        <line x1="370" y1="146" x2="382" y2="146" stroke="#1db87e" stroke-width="1.5" stroke-dasharray="4,2" />
+        <text x="388" y="150" font-family="Barlow, sans-serif" font-size="11" fill="#5a6d75">Projeção</text>
+      </svg>
+    </div>
+
+    <div class="ref-table-wrap">
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Coluna na tabela</th>
+            <th>O que representa</th>
+            <th>Como usar na seleção</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Largura (mm)</strong></td>
+            <td>Dimensão frontal da abertura da caneca</td>
+            <td>Deve ser compatível com a largura da correia selecionada</td>
+          </tr>
+          <tr>
+            <td><strong>Vol. 75% (L)</strong></td>
+            <td>Volume útil da caneca a 75% de enchimento</td>
+            <td>Valor usado nos cálculos de capacidade (CF1 padrão)</td>
+          </tr>
+          <tr>
+            <td><strong>Vol. 100% (L)</strong></td>
+            <td>Volume total da caneca</td>
+            <td>Referência para análise de sobrecarga</td>
+          </tr>
+          <tr>
+            <td><strong>Passo (mm)</strong></td>
+            <td>Distância entre canecas consecutivas na correia</td>
+            <td>Passos menores aumentam a capacidade; devem permitir descarga sem interferência</td>
+          </tr>
+          <tr>
+            <td><strong>Correia (pol)</strong></td>
+            <td>Largura mínima recomendada da correia</td>
+            <td>Correia muito estreita não suporta as canecas</td>
+          </tr>
+          <tr>
+            <td><strong>Cap. 1,5m/s (t/h)*</strong></td>
+            <td>Capacidade de referência a γ=1 t/m³ e v=1,5 m/s</td>
+            <td>Guia rápido para pré-seleção; multiplique por γ real para obter a capacidade no seu material</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box">
+      <i class="fas fa-info-circle"></i>
+      <span><strong>Dica de pré-seleção:</strong> Multiplique a capacidade de referência (col. Cap. 1,5m/s) pelo peso
+        específico do seu material (γ) e compare com a capacidade de projeto. A caneca cujo resultado seja igual ou
+        superior à capacidade de projeto é um bom ponto de partida.</span>
+    </div>
+  <div class="topo-link"><a href="#top"><i class="fas fa-arrow-up"></i> Voltar ao topo</a></div>
+  </section>
+
+  <!-- ===== 4. CÁLCULO DE CAPACIDADE ===== -->
+  <section class="sec" id="capacidade">
+    <div class="sec-header">
+      <div class="sec-icon laranja"><i class="fas fa-calculator"></i></div>
+      <div>
+        <h2>Cálculo de Capacidade</h2>
+        <p>Fórmula principal, variáveis e exemplo numérico</p>
+      </div>
+    </div>
+
+    <p>A capacidade do elevador é calculada pela quantidade de material que as canecas conseguem transportar por unidade
+      de tempo, em função do volume de cada caneca, do passo e da velocidade da correia.</p>
+
+    <div class="formula-box">
+      <div class="f-label">Fórmula de Capacidade Volumétrica</div>
+      <div class="f-eq">
+        Q (m³/h) = <span>3600 · V · n · v · CF1 · CF2</span> / e
+      </div>
+      <div class="f-variaveis">
+        <div class="fv"><strong>V</strong> = Volume da caneca a 75% (m³)</div>
+        <div class="fv"><strong>n</strong> = Nº de fileiras de canecas</div>
+        <div class="fv"><strong>v</strong> = Velocidade da correia (m/s)</div>
+        <div class="fv"><strong>CF1</strong> = Coef. de enchimento (adm)</div>
+        <div class="fv"><strong>CF2</strong> = Coef. de homogeneidade (adm)</div>
+        <div class="fv"><strong>e</strong> = Passo das canecas (m)</div>
+      </div>
+    </div>
+
+    <div class="formula-box formula-box--verde" style="margin-top:12px">
+      <div class="f-label">Conversão para Capacidade Mássica</div>
+      <div class="f-eq">Q (t/h) = <span>Q (m³/h) · γ</span></div>
+      <div class="f-variaveis">
+        <div class="fv"><strong>γ</strong> = Peso específico do material (t/m³)</div>
+      </div>
+    </div>
+
+    <div class="exemplo-box">
+      <div class="ex-titulo"><i class="fas fa-flask"></i> Exemplo Numérico — EL-01 MISTURA 90</div>
+      <div class="ex-linha"><span class="ek">Caneca selecionada</span><span class="ev">500 mm × 220 mm, Passo 440
+          mm</span></div>
+      <div class="ex-linha"><span class="ek">Volume a 75% (V)</span><span class="ev">8,993 L = 0,008993 m³</span></div>
+      <div class="ex-linha"><span class="ek">Nº fileiras (n)</span><span class="ev">1</span></div>
+      <div class="ex-linha"><span class="ek">Velocidade (v)</span><span class="ev">1,525 m/s</span></div>
+      <div class="ex-linha"><span class="ek">CF1</span><span class="ev">0,754</span></div>
+      <div class="ex-linha"><span class="ek">CF2</span><span class="ev">1,0</span></div>
+      <div class="ex-linha"><span class="ek">Passo (e)</span><span class="ev">0,440 m</span></div>
+      <div class="ex-linha"><span class="ek">Q volumétrica = 3600 × 0,008993 × 1 × 1,525 × 0,754 × 1,0 /
+          0,440</span><span class="ev">≈ 85,0 m³/h</span></div>
+      <div class="ex-linha"><span class="ek">Peso específico (γ)</span><span class="ev">1,11 t/m³</span></div>
+      <div class="ex-linha"><span class="ek">Q mássica = 85,0 × 1,11</span><span class="ev dest">≈ 94,3 t/h</span></div>
+    </div>
+  <div class="topo-link"><a href="#top"><i class="fas fa-arrow-up"></i> Voltar ao topo</a></div>
+  </section>
+
+  <!-- ===== 5. TENSÕES DA CORREIA ===== -->
+  <section class="sec" id="tensoes">
+    <div class="sec-header">
+      <div class="sec-icon amarelo"><i class="fas fa-compress-arrows-alt"></i></div>
+      <div>
+        <h2>Cálculo das Tensões da Correia</h2>
+        <p>Peso por metro, tensão de trabalho, lonas e %Tad</p>
+      </div>
+    </div>
+
+    <p>A análise das tensões garante que a correia suporte as cargas sem ruptura e trabalhe dentro dos limites seguros.
+      São calculados o peso por metro de material, a tensão no lado tenso e o número mínimo de lonas.</p>
+
+    <div class="formula-box">
+      <div class="f-label">Peso por Metro de Material (Pm)</div>
+      <div class="f-eq">Pm (kg/m) = <span>1000 · n · γ · V</span> / e</div>
+      <div class="f-variaveis">
+        <div class="fv"><strong>n</strong> = Nº de fileiras de canecas</div>
+        <div class="fv"><strong>γ</strong> = Peso específico (t/m³)</div>
+        <div class="fv"><strong>V</strong> = Volume da caneca a 75% (L)</div>
+        <div class="fv"><strong>e</strong> = Passo das canecas (mm)</div>
+      </div>
+    </div>
+
+    <div class="formula-box formula-box--marrom" style="margin-top:12px">
+      <div class="f-label">Comprimento da Correia Aberta (Ca)</div>
+      <div class="f-eq">Ca (m) = <span>π · D</span> + 2 · H</div>
+      <div class="f-variaveis">
+        <div class="fv"><strong>D</strong> = Diâmetro do tambor (m)</div>
+        <div class="fv"><strong>H</strong> = Altura cc do elevador (m)</div>
+      </div>
+    </div>
+
+    <p style="margin-top:16px">A <strong>tensão no lado tenso (Tt)</strong> considera o peso do material elevado, o peso
+      próprio da correia e os atritos, com fator de majoração. O número mínimo de lonas é obtido dividindo essa tensão
+      pela resistência admissível da correia escolhida.</p>
+
+    <div class="ref-table-wrap">
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Grandeza</th>
+            <th>Fórmula resumida</th>
+            <th>Observação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Tensão lado tenso (Tt)</strong></td>
+            <td>Tt = (Pm + Pc) × H × 1,25</td>
+            <td>Pc = peso da correia por metro (kg/m)</td>
+          </tr>
+          <tr>
+            <td><strong>Nº mínimo de lonas (Nm)</strong></td>
+            <td>Nm = Tt / (Tu × B/10)</td>
+            <td>B = largura da correia em mm</td>
+          </tr>
+          <tr>
+            <td><strong>%Tad calculado</strong></td>
+            <td>%Tad = Tt / (Tu × B/10 × Nm_rec) × 100</td>
+            <td>Deve ficar entre 50% e 75%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box">
+      <i class="fas fa-info-circle"></i>
+      <span>O número de lonas recomendado é sempre o maior entre o calculado (arredondado para cima) e o mínimo de
+        <strong>4 lonas</strong>, que é o piso construtivo usual para correias de elevadores.</span>
+    </div>
+  <div class="topo-link"><a href="#top"><i class="fas fa-arrow-up"></i> Voltar ao topo</a></div>
+  </section>
+
+  <!-- ===== 6. POTÊNCIA ===== -->
+  <section class="sec" id="potencia">
+    <div class="sec-header">
+      <div class="sec-icon verde"><i class="fas fa-bolt"></i></div>
+      <div>
+        <h2>Cálculo da Potência do Motor</h2>
+        <p>Potência efetiva, fator de serviço e seleção comercial</p>
+      </div>
+    </div>
+
+    <p>A potência do motor é calculada a partir da energia necessária para elevar o material a uma determinada altura em
+      uma determinada vazão, descontando a eficiência mecânica do sistema (correia + redutor + acoplamentos).</p>
+
+    <div class="formula-box">
+      <div class="f-label">Potência Efetiva Necessária</div>
+      <div class="f-eq">Ne (kW) = <span>Q · H · 9,81</span> / (3600 · η)</div>
+      <div class="f-variaveis">
+        <div class="fv"><strong>Q</strong> = Capacidade em t/h</div>
+        <div class="fv"><strong>H</strong> = Altura cc (m)</div>
+        <div class="fv"><strong>9,81</strong> = aceleração gravitacional (m/s²)</div>
+        <div class="fv"><strong>η</strong> = eficiência mecânica (adotado 0,85)</div>
+      </div>
+    </div>
+
+    <p style="margin-top:16px">Após calcular a potência efetiva, aplica-se o <strong>fator de segurança de 1,20
+        (20%)</strong> para cobrir variações de carga, atrito adicional e perdas não modeladas. O resultado em CV é
+      convertido e comparado com a lista de motores comerciais disponíveis, selecionando-se o <strong>imediatamente
+        superior</strong>.</p>
+
+    <div class="exemplo-box">
+      <div class="ex-titulo"><i class="fas fa-flask"></i> Exemplo — Potência para 94,3 t/h e H = 20,6 m</div>
+      <div class="ex-linha"><span class="ek">Ne = 94,3 × 20,6 × 9,81 / (3600 × 0,85)</span><span class="ev">= 6,19
+          kW</span></div>
+      <div class="ex-linha"><span class="ek">Com fs 1,20 → 6,19 × 1,20</span><span class="ev">= 7,43 kW</span></div>
+      <div class="ex-linha"><span class="ek">Conversão para CV → 7,43 / 0,7355</span><span class="ev">= 10,1 CV</span>
+      </div>
+      <div class="ex-linha"><span class="ek">Motor comercial selecionado</span><span class="ev dest">15 CV — 4 polos /
+          60 Hz</span></div>
+    </div>
+
+    <div class="ref-table-wrap">
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Potências comerciais disponíveis (CV)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1 — 2 — 3 — 5 — 7,5 — 10 — <strong>15</strong> — 20 — 25 — 30 — 40 — 50 — 60 — 75 — 100 — 125 — 150 —
+              200</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <div class="topo-link"><a href="#top"><i class="fas fa-arrow-up"></i> Voltar ao topo</a></div>
+  </section>
+
+  <!-- ===== 7. INTERPRETANDO OS RESULTADOS ===== -->
+  <section class="sec" id="resultados">
+    <div class="sec-header">
+      <div class="sec-icon"><i class="fas fa-chart-bar"></i></div>
+      <div>
+        <h2>Interpretando os Resultados</h2>
+        <p>O que cada valor na tela de resultados significa</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="st-titulo">Capacidade m³/h e t/h</div>
+          <p>São os valores calculados pelo sistema. O resultado em t/h deve ser <strong>igual ou superior</strong> à
+            capacidade de projeto informada. Se estiver abaixo, selecione uma caneca com maior volume ou aumente a
+            velocidade da correia.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="st-titulo">Peso por Metro (Pm)</div>
+          <p>Kg de material por metro de correia. Valor fundamental para o cálculo das tensões. Quanto maior o Pm, maior
+            a carga sobre a correia e maior o número de lonas necessário.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="st-titulo">Comprimento da Correia (Ca)</div>
+          <p>Comprimento total da correia sem emenda, calculado por Ca = π·D + 2·H. Usado diretamente para solicitar a
+            correia ao fabricante. Lembre-se de adicionar a folga para emenda (geralmente +0,5 a +1,0 m).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="st-titulo">Caneca Selecionada</div>
+          <p>Exibe as dimensões da caneca clicada na tabela: largura, volume a 75%, passo, largura de correia
+            compatível, diâmetro de tambor recomendado e capacidade de referência. Confirme que todos os valores são
+            coerentes com o projeto.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="st-titulo">Tensões da Correia e Nº de Lonas</div>
+          <p>O <strong>%Tad calculado</strong> deve ficar entre 50% e 75% — aparece em <span
+              class="badge-ok">verde com ✓</span> quando está OK, ou em <span
+              class="badge-warn">amarelo com ⚠</span> quando está fora da faixa. O número de lonas
+            recomendado é o valor mínimo construtivo aceito.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="st-titulo">Potência e Motor Sugerido</div>
+          <p>A potência em CV já inclui o fator de segurança de 1,20. O motor comercial sugerido é o imediatamente
+            superior na tabela de motores WEG padrão. Verifique sempre a disponibilidade do frame e da tensão de
+            alimentação.</p>
+        </div>
+      </div>
+    </div>
+  <div class="topo-link"><a href="#top"><i class="fas fa-arrow-up"></i> Voltar ao topo</a></div>
+  </section>
+
+  <!-- ===== 8. ALERTAS ===== -->
+  <section class="sec" id="alertas">
+    <div class="sec-header">
+      <div class="sec-icon amarelo"><i class="fas fa-exclamation-triangle"></i></div>
+      <div>
+        <h2>Alertas e Limites de Projeto</h2>
+        <p>O que fazer quando um alerta aparece</p>
+      </div>
+    </div>
+
+    <div class="ref-table-wrap">
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Alerta</th>
+            <th>Causa</th>
+            <th>Ação recomendada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Capacidade calculada abaixo do projeto</strong></td>
+            <td>Caneca com volume insuficiente para o passo e velocidade dados</td>
+            <td>Selecione uma caneca com maior volume a 75%, ou aumente a velocidade da correia</td>
+          </tr>
+          <tr>
+            <td><strong>Velocidade fora da faixa (1,2–2,5 m/s)</strong></td>
+            <td>Velocidade muito baixa (subdescarga) ou muito alta (descarga prematura)</td>
+            <td>Ajuste v para a faixa recomendada; reconsidere a caneca se necessário</td>
+          </tr>
+          <tr>
+            <td><strong>%Tad acima de 75%</strong></td>
+            <td>Correia subdimensionada — tensão de trabalho muito próxima do limite admissível</td>
+            <td>Aumente o número de lonas manualmente ou selecione correia de maior resistência (Tu maior)</td>
+          </tr>
+          <tr>
+            <td><strong>CF1 maior que 1,0</strong></td>
+            <td>Enchimento acima da capacidade física da caneca</td>
+            <td>Reduza CF1 para no máximo 1,0</td>
+          </tr>
+          <tr>
+            <td><strong>Campos obrigatórios não preenchidos</strong></td>
+            <td>Dado de entrada faltando ou caneca não selecionada</td>
+            <td>Preencha todos os campos e clique em uma linha da tabela de canecas antes de calcular</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box mt-lg">
+      <i class="fas fa-graduation-cap"></i>
+      <span><strong>Nota técnica:</strong> Esta calculadora aplica o método de cálculo de capacidade conforme memória
+        técnica de projeto. Os resultados são estimativas de engenharia — para projetos executivos, consulte normas
+        ABNT, catálogos dos fabricantes de correia (ex: Mercúrio, Dunlop) e realize verificações estruturais detalhadas
+        dos eixos e mancais.</span>
+    </div>
+  <div class="topo-link"><a href="#top"><i class="fas fa-arrow-up"></i> Voltar ao topo</a></div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <p><strong>Calculadora de Elevadores de Canecas</strong></p>
+      <p>Método de cálculo conforme memória de cálculo técnica — Fórmula: Q = 3600 · V · n · v · CF1 · CF2 · γ / e</p>
+    </div>
+    <p class="footer-formula">Pm = 1000 · n · γ · V / e &nbsp;|&nbsp; Ca = π · D + 2H</p>
+    <div class="footer-bottom">
+      <img src="imagens/Muri_logo.png" alt="Logo do grupo">
+      <span>Desenvolvido pelo grupo MuriSystems</span>
+    </div>
+  </div>
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>
